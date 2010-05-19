@@ -10,7 +10,11 @@ Source0:	http://get.qt.nokia.com/qt/solutions/lgpl/qtsingleapplication-%{version
 Source1:	qtsingleapplication.prf
 Patch0:		qtsingleapplication-build.diff
 Patch1:		qtsingleapplication-dont-bundle-external-libs.patch
+BuildRequires:	QtCore-devel
+BuildRequires:	QtGui-devel
 BuildRequires:	QtLockedFile-devel
+BuildRequires:	QtNetwork-devel
+BuildRequires:	libstdc++-devel
 BuildRequires:	qt4-build
 BuildRequires:	qt4-qmake
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
