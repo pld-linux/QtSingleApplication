@@ -1,7 +1,7 @@
 Summary:	Qt library to start applications only once per user
 Name:		QtSingleApplication
 Version:	2.6
-Release:	2
+Release:	3
 License:	GPL v3 or LGPL v2 with exceptions
 Group:		Libraries
 URL:		http://qt.nokia.com/products/appdev/add-on-products/catalog/4/Utilities/qtsingleapplication
@@ -10,6 +10,7 @@ Source0:	http://get.qt.nokia.com/qt/solutions/lgpl/qtsingleapplication-%{version
 Source1:	qtsingleapplication.prf
 Patch0:		qtsingleapplication-build.diff
 Patch1:		qtsingleapplication-dont-bundle-external-libs.patch
+Patch2:		clementine.patch
 BuildRequires:	QtCore-devel
 BuildRequires:	QtGui-devel
 BuildRequires:	QtLockedFile-devel
@@ -48,6 +49,7 @@ applications that use QtSingleApplication.
 %setup -q -n qtsingleapplication-%{version}_1-opensource
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 # We already disabled bundling this extrenal library.
 # But just to make sure:
