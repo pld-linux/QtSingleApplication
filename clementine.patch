@@ -1,6 +1,5 @@
-diff -ur /home/david/qtsingleapplication-2.6_1-opensource/src/qtlocalpeer.cpp qtsingleapplication/qtlocalpeer.cpp
---- /home/david/qtsingleapplication-2.6_1-opensource/src/qtlocalpeer.cpp	2009-12-16 10:43:33.000000000 +0000
-+++ qtsingleapplication/qtlocalpeer.cpp	2010-07-10 16:26:50.000000000 +0100
+--- qtsingleapplication-2.6_1-opensource/src/qtlocalpeer.cpp	2009-12-16 10:43:33.000000000 +0000
++++ qtsingleapplication/src/qtlocalpeer.cpp	2010-07-10 16:26:50.000000000 +0100
 @@ -48,6 +48,7 @@
  #include "qtlocalpeer.h"
  #include <QtCore/QCoreApplication>
@@ -9,30 +8,6 @@ diff -ur /home/david/qtsingleapplication-2.6_1-opensource/src/qtlocalpeer.cpp qt
  
  #if defined(Q_OS_WIN)
  #include <QtCore/QLibrary>
-@@ -59,14 +60,12 @@
- #include <time.h>
- #endif
- 
--namespace QtLP_Private {
- #include "qtlockedfile.cpp"
- #if defined(Q_OS_WIN)
- #include "qtlockedfile_win.cpp"
- #else
- #include "qtlockedfile_unix.cpp"
- #endif
--}
- 
- const char* QtLocalPeer::ack = "ack";
- 
-@@ -118,7 +117,7 @@
-     if (lockFile.isLocked())
-         return false;
- 
--    if (!lockFile.lock(QtLP_Private::QtLockedFile::WriteLock, false))
-+    if (!lockFile.lock(QtLockedFile::WriteLock, false))
-         return true;
- 
-     bool res = server->listen(socketName);
 @@ -138,6 +137,11 @@
  
  bool QtLocalPeer::sendMessage(const QString &message, int timeout)
@@ -68,19 +43,8 @@ diff -ur /home/david/qtsingleapplication-2.6_1-opensource/src/qtlocalpeer.cpp qt
 +    emit messageReceived(uMsg); //### (might take a long time to return)
 +    emit messageReceived(QString::fromUtf8(uMsg));
  }
-diff -ur /home/david/qtsingleapplication-2.6_1-opensource/src/qtlocalpeer.h qtsingleapplication/qtlocalpeer.h
---- /home/david/qtsingleapplication-2.6_1-opensource/src/qtlocalpeer.h	2009-12-16 10:43:33.000000000 +0000
-+++ qtsingleapplication/qtlocalpeer.h	2010-07-10 16:26:16.000000000 +0100
-@@ -49,9 +49,7 @@
- #include <QtNetwork/QLocalSocket>
- #include <QtCore/QDir>
- 
--namespace QtLP_Private {
- #include "qtlockedfile.h"
--}
- 
- class QtLocalPeer : public QObject
- {
+--- qtsingleapplication-2.6_1-opensource/src/qtlocalpeer.h	2009-12-16 10:43:33.000000000 +0000
++++ qtsingleapplication/src/qtlocalpeer.h	2010-07-10 16:26:16.000000000 +0100
 @@ -61,11 +59,13 @@
      QtLocalPeer(QObject *parent = 0, const QString &appId = QString());
      bool isClient();
@@ -95,18 +59,8 @@ diff -ur /home/david/qtsingleapplication-2.6_1-opensource/src/qtlocalpeer.h qtsi
  
  protected Q_SLOTS:
      void receiveConnection();
-@@ -74,7 +74,7 @@
-     QString id;
-     QString socketName;
-     QLocalServer* server;
--    QtLP_Private::QtLockedFile lockFile;
-+    QtLockedFile lockFile;
- 
- private:
-     static const char* ack;
-diff -ur /home/david/qtsingleapplication-2.6_1-opensource/src/qtlockedfile_win.cpp qtsingleapplication/qtlockedfile_win.cpp
---- /home/david/qtsingleapplication-2.6_1-opensource/src/qtlockedfile_win.cpp	2009-12-16 10:43:33.000000000 +0000
-+++ qtsingleapplication/qtlockedfile_win.cpp	2010-07-10 16:26:33.000000000 +0100
+--- qtsingleapplication-2.6_1-opensource/src/qtlockedfile_win.cpp	2009-12-16 10:43:33.000000000 +0000
++++ qtsingleapplication/src/qtlockedfile_win.cpp	2010-07-10 16:26:33.000000000 +0100
 @@ -65,7 +65,7 @@
  
      Qt::HANDLE mutex;
@@ -125,9 +79,8 @@ diff -ur /home/david/qtsingleapplication-2.6_1-opensource/src/qtlockedfile_win.c
                 { mutex = OpenMutexA(SYNCHRONIZE | MUTEX_MODIFY_STATE, FALSE, mname.toLocal8Bit().constData()); } );
          if (!mutex) {
              if (GetLastError() != ERROR_FILE_NOT_FOUND)
-diff -ur /home/david/qtsingleapplication-2.6_1-opensource/src/qtsingleapplication.cpp qtsingleapplication/qtsingleapplication.cpp
---- /home/david/qtsingleapplication-2.6_1-opensource/src/qtsingleapplication.cpp	2009-12-16 10:43:33.000000000 +0000
-+++ qtsingleapplication/qtsingleapplication.cpp	2010-07-10 16:23:53.000000000 +0100
+--- qtsingleapplication-2.6_1-opensource/src/qtsingleapplication.cpp	2009-12-16 10:43:33.000000000 +0000
++++ qtsingleapplication/src/qtsingleapplication.cpp	2010-07-10 16:23:53.000000000 +0100
 @@ -144,6 +144,7 @@
      actWin = 0;
      peer = new QtLocalPeer(this, appId);
@@ -165,9 +118,8 @@ diff -ur /home/david/qtsingleapplication-2.6_1-opensource/src/qtsingleapplicatio
  }
  
  
-diff -ur /home/david/qtsingleapplication-2.6_1-opensource/src/qtsingleapplication.h qtsingleapplication/qtsingleapplication.h
---- /home/david/qtsingleapplication-2.6_1-opensource/src/qtsingleapplication.h	2009-12-16 10:43:33.000000000 +0000
-+++ qtsingleapplication/qtsingleapplication.h	2010-07-10 16:23:53.000000000 +0100
+--- qtsingleapplication-2.6_1-opensource/src/qtsingleapplication.h	2009-12-16 10:43:33.000000000 +0000
++++ qtsingleapplication/src/qtsingleapplication.h	2010-07-10 16:23:53.000000000 +0100
 @@ -91,11 +91,13 @@
  
  public Q_SLOTS:
@@ -182,9 +134,8 @@ diff -ur /home/david/qtsingleapplication-2.6_1-opensource/src/qtsingleapplicatio
  
  
  private:
-diff -ur /home/david/qtsingleapplication-2.6_1-opensource/src/qtsinglecoreapplication.cpp qtsingleapplication/qtsinglecoreapplication.cpp
---- /home/david/qtsingleapplication-2.6_1-opensource/src/qtsinglecoreapplication.cpp	2009-12-16 10:43:33.000000000 +0000
-+++ qtsingleapplication/qtsinglecoreapplication.cpp	2010-07-10 16:32:33.000000000 +0100
+--- qtsingleapplication-2.6_1-opensource/src/qtsinglecoreapplication.cpp	2009-12-16 10:43:33.000000000 +0000
++++ qtsingleapplication/src/qtsinglecoreapplication.cpp	2010-07-10 16:32:33.000000000 +0100
 @@ -81,6 +81,7 @@
  {
      peer = new QtLocalPeer(this);
@@ -213,9 +164,8 @@ diff -ur /home/david/qtsingleapplication-2.6_1-opensource/src/qtsinglecoreapplic
  
  /*!
      Returns the application identifier. Two processes with the same
-diff -ur /home/david/qtsingleapplication-2.6_1-opensource/src/qtsinglecoreapplication.h qtsingleapplication/qtsinglecoreapplication.h
---- /home/david/qtsingleapplication-2.6_1-opensource/src/qtsinglecoreapplication.h	2009-12-16 10:43:33.000000000 +0000
-+++ qtsingleapplication/qtsinglecoreapplication.h	2010-07-10 16:32:33.000000000 +0100
+--- qtsingleapplication-2.6_1-opensource/src/qtsinglecoreapplication.h	2009-12-16 10:43:33.000000000 +0000
++++ qtsingleapplication/src/qtsinglecoreapplication.h	2010-07-10 16:32:33.000000000 +0100
 @@ -62,10 +62,12 @@
  
  public Q_SLOTS:
