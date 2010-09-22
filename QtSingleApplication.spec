@@ -1,13 +1,14 @@
 Summary:	Qt library to start applications only once per user
 Name:		QtSingleApplication
 Version:	2.6
-Release:	3
+Release:	4
 License:	GPL v3 or LGPL v2 with exceptions
 Group:		Libraries
 URL:		http://qt.nokia.com/products/appdev/add-on-products/catalog/4/Utilities/qtsingleapplication
 Source0:	http://get.qt.nokia.com/qt/solutions/lgpl/qtsingleapplication-%{version}_1-opensource.tar.gz
 # Source0-md5:	902795eb13ecedbdc112f00d7ec22949
 Source1:	qtsingleapplication.prf
+Source2:	qtsinglecoreapplication.prf
 Patch0:		qtsingleapplication-build.diff
 Patch1:		qtsingleapplication-dont-bundle-external-libs.patch
 Patch2:		clementine.patch
@@ -83,7 +84,7 @@ cp -a \
     $RPM_BUILD_ROOT%{_includedir}/QtSolutions
 
 install -d $RPM_BUILD_ROOT%{_qt4_datadir}/mkspecs/features
-cp -a %{SOURCE1} $RPM_BUILD_ROOT%{_qt4_datadir}/mkspecs/features
+cp -a %{SOURCE1} %{SOURCE2} $RPM_BUILD_ROOT%{_qt4_datadir}/mkspecs/features
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -96,11 +97,14 @@ rm -rf $RPM_BUILD_ROOT
 %doc LGPL_EXCEPTION.txt LICENSE.* README.TXT
 %attr(755,root,root) %{_libdir}/libQtSolutions_SingleApplication-%{version}.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libQtSolutions_SingleApplication-%{version}.so.1
+%attr(755,root,root) %{_libdir}/libQtSolutions_SingleCoreApplication-%{version}.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libQtSolutions_SingleCoreApplication-%{version}.so.1
 
 %files devel
 %defattr(644,root,root,755)
 %doc doc examples
 %{_libdir}/libQtSolutions_SingleApplication-%{version}.so
+%{_libdir}/libQtSolutions_SingleCoreApplication-%{version}.so
 # XXX dir shared dir with QtLockedFile.spec
 %dir %{_includedir}/QtSolutions
 %{_includedir}/QtSolutions/QtSingleApplication
@@ -108,3 +112,4 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/QtSolutions/qtsingleapplication.h
 %{_includedir}/QtSolutions/qtsinglecoreapplication.h
 %{_qt4_datadir}/mkspecs/features/qtsingleapplication.prf
+%{_qt4_datadir}/mkspecs/features/qtsinglecoreapplication.prf
