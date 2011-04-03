@@ -1,7 +1,7 @@
 Summary:	Qt library to start applications only once per user
 Name:		QtSingleApplication
 Version:	2.6
-Release:	4
+Release:	5
 License:	GPL v3 or LGPL v2 with exceptions
 Group:		Libraries
 URL:		http://qt.nokia.com/products/appdev/add-on-products/catalog/4/Utilities/qtsingleapplication
@@ -75,13 +75,13 @@ cp -a lib/* $RPM_BUILD_ROOT%{_libdir}
 rm $RPM_BUILD_ROOT%{_libdir}/lib*.so.1.0
 
 # headers
-install -d $RPM_BUILD_ROOT%{_includedir}/QtSolutions
+install -d $RPM_BUILD_ROOT%{_includedir}/qt4/QtSolutions
 cp -a \
     src/qtsingleapplication.h \
     src/QtSingleApplication \
     src/qtsinglecoreapplication.h \
     src/QtSingleCoreApplication \
-    $RPM_BUILD_ROOT%{_includedir}/QtSolutions
+    $RPM_BUILD_ROOT%{_includedir}/qt4/QtSolutions
 
 install -d $RPM_BUILD_ROOT%{_qt4_datadir}/mkspecs/features
 cp -a %{SOURCE1} %{SOURCE2} $RPM_BUILD_ROOT%{_qt4_datadir}/mkspecs/features
@@ -106,10 +106,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/libQtSolutions_SingleApplication-%{version}.so
 %{_libdir}/libQtSolutions_SingleCoreApplication-%{version}.so
 # XXX dir shared dir with QtLockedFile.spec
-%dir %{_includedir}/QtSolutions
-%{_includedir}/QtSolutions/QtSingleApplication
-%{_includedir}/QtSolutions/QtSingleCoreApplication
-%{_includedir}/QtSolutions/qtsingleapplication.h
-%{_includedir}/QtSolutions/qtsinglecoreapplication.h
+%dir %{_includedir}/qt4/QtSolutions
+%{_includedir}/qt4/QtSolutions/QtSingleApplication
+%{_includedir}/qt4/QtSolutions/QtSingleCoreApplication
+%{_includedir}/qt4/QtSolutions/qtsingleapplication.h
+%{_includedir}/qt4/QtSolutions/qtsinglecoreapplication.h
 %{_qt4_datadir}/mkspecs/features/qtsingleapplication.prf
 %{_qt4_datadir}/mkspecs/features/qtsinglecoreapplication.prf
