@@ -55,7 +55,7 @@ applications that use QtSingleApplication.
 %setup -qc
 %patch0 -p0
 %patch1 -p0
-%patch2 -p4
+%patch2 -p1
 
 # We already disabled bundling this extrenal library.
 # But just to make sure:
