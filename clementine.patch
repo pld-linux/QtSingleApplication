@@ -1,13 +1,13 @@
---- qtsingleapplication-2.6_1-opensource/src/qtlocalpeer.cpp	2009-12-16 10:43:33.000000000 +0000
-+++ qtsingleapplication/src/qtlocalpeer.cpp	2010-07-10 16:26:50.000000000 +0100
-@@ -48,6 +48,7 @@
+--- QtSingleApplication-2.6.1/src/qtlocalpeer.cpp~	2015-02-22 21:20:10.000000000 +0200
++++ QtSingleApplication-2.6.1/src/qtlocalpeer.cpp	2015-02-22 21:21:00.011791211 +0200
+@@ -42,6 +42,7 @@
  #include "qtlocalpeer.h"
- #include <QtCore/QCoreApplication>
- #include <QtCore/QTime>
+ #include <QCoreApplication>
+ #include <QTime>
 +#include <QtDebug>
  
  #if defined(Q_OS_WIN)
- #include <QtCore/QLibrary>
+ #include <QLibrary>
 @@ -138,6 +137,11 @@
  
  bool QtLocalPeer::sendMessage(const QString &message, int timeout)
@@ -31,13 +31,14 @@
      bool res = socket.waitForBytesWritten(timeout);
      res &= socket.waitForReadyRead(timeout);   // wait for ack
      res &= (socket.read(qstrlen(ack)) == ack);
-@@ -195,9 +198,9 @@
+@@ -189,10 +190,10 @@
          delete socket;
          return;
      }
 -    QString message(QString::fromUtf8(uMsg));
      socket->write(ack, qstrlen(ack));
      socket->waitForBytesWritten(1000);
+     socket->waitForDisconnected(1000); // make sure client reads ack
      delete socket;
 -    emit messageReceived(message); //### (might take a long time to return)
 +    emit messageReceived(uMsg); //### (might take a long time to return)
