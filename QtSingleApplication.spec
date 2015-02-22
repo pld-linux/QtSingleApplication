@@ -26,7 +26,7 @@ BuildRequires:	qt4-build
 BuildRequires:	qt4-qmake
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-%define		_qt4_datadir	%{_datadir}/qt4
+%define		qt4dir	%{_datadir}/qt4
 
 %description
 For some applications it is useful or even critical that they are
@@ -62,34 +62,19 @@ applications that use QtSingleApplication.
 rm src/{QtLocked,qtlocked}*
 
 %build
-touch .licenseAccepted
 # Does not use GNU configure
 ./configure \
 	-library
-
-# XXX fix QtLockedFile package
-qmake-qt4 INCLUDEPATH+=%{_includedir}/QtSolutions
+qmake-qt4
 %{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
-
-# libraries
-install -d $RPM_BUILD_ROOT%{_libdir}
+install -d $RPM_BUILD_ROOT{%{_libdir},%{_includedir}/qt4/QtSolutions,%{qt4dir}/mkspecs/features}
 cp -a lib/* $RPM_BUILD_ROOT%{_libdir}
 rm $RPM_BUILD_ROOT%{_libdir}/lib*.so.1.0
-
-# headers
-install -d $RPM_BUILD_ROOT%{_includedir}/qt4/QtSolutions
-cp -a \
-    src/qtsingleapplication.h \
-    src/QtSingleApplication \
-    src/qtsinglecoreapplication.h \
-    src/QtSingleCoreApplication \
-    $RPM_BUILD_ROOT%{_includedir}/qt4/QtSolutions
-
-install -d $RPM_BUILD_ROOT%{_qt4_datadir}/mkspecs/features
-cp -a %{SOURCE1} %{SOURCE2} $RPM_BUILD_ROOT%{_qt4_datadir}/mkspecs/features
+cp -p src/qtsingle*application.h src/QtSingle*Application $RPM_BUILD_ROOT%{_includedir}/qt4/QtSolutions
+cp -p %{SOURCE1} %{SOURCE2} $RPM_BUILD_ROOT%{qt4dir}/mkspecs/features
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -100,7 +85,6 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc README.TXT
-#%doc LGPL_EXCEPTION.txt LICENSE.*
 %attr(755,root,root) %{_libdir}/libQtSolutions_SingleApplication-2.6.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libQtSolutions_SingleApplication-2.6.so.1
 %attr(755,root,root) %{_libdir}/libQtSolutions_SingleCoreApplication-2.6.so.*.*.*
@@ -111,11 +95,11 @@ rm -rf $RPM_BUILD_ROOT
 %doc doc examples
 %{_libdir}/libQtSolutions_SingleApplication-2.6.so
 %{_libdir}/libQtSolutions_SingleCoreApplication-2.6.so
-# XXX dir shared dir with QtLockedFile.spec
+# XXX dir shared dir
 %dir %{_includedir}/qt4/QtSolutions
 %{_includedir}/qt4/QtSolutions/QtSingleApplication
 %{_includedir}/qt4/QtSolutions/QtSingleCoreApplication
 %{_includedir}/qt4/QtSolutions/qtsingleapplication.h
 %{_includedir}/qt4/QtSolutions/qtsinglecoreapplication.h
-%{_qt4_datadir}/mkspecs/features/qtsingleapplication.prf
-%{_qt4_datadir}/mkspecs/features/qtsinglecoreapplication.prf
+%{qt4dir}/mkspecs/features/qtsingleapplication.prf
+%{qt4dir}/mkspecs/features/qtsinglecoreapplication.prf
