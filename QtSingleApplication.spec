@@ -1,6 +1,6 @@
 #
 # Conditional build:
-%bcond_with	qt4		# build Qt4
+%bcond_without	qt4		# build Qt4
 %bcond_without	qt5		# build Qt5
 
 # last commit to qtsingleapplication subdir in
@@ -23,8 +23,8 @@ Patch0:		qtsingleapplication-build.diff
 Patch1:		qtlockedfile.patch
 Patch2:		clementine.patch
 URL:		http://doc.qt.digia.com/solutions/4/qtsingleapplication/qtsingleapplication.html
+BuildRequires:	libstdc++-devel
 %if %{with qt4}
-BuildRequires:	QtCore-devel
 BuildRequires:	QtGui-devel
 BuildRequires:	QtLockedFile-devel
 BuildRequires:	QtNetwork-devel
@@ -140,6 +140,7 @@ cp -a lib/* $RPM_BUILD_ROOT%{_libdir}
 rm $RPM_BUILD_ROOT%{_libdir}/lib*.so.1.0
 cp -p src/qtsingle*application.h src/QtSingle*Application $RPM_BUILD_ROOT%{_includedir}/qt4/QtSolutions
 cp -p %{SOURCE1} %{SOURCE2} $RPM_BUILD_ROOT%{qt4dir}/mkspecs/features
+cd ..
 %endif
 
 %if %{with qt5}
@@ -149,6 +150,7 @@ cp -a lib/* $RPM_BUILD_ROOT%{_libdir}
 rm $RPM_BUILD_ROOT%{_libdir}/lib*.so.1.0
 cp -p src/qtsingle*application.h src/QtSingle*Application $RPM_BUILD_ROOT%{_includedir}/qt5/QtSolutions
 cp -p %{SOURCE1} %{SOURCE2} $RPM_BUILD_ROOT%{qt5dir}/mkspecs/features
+cd ..
 %endif
 
 %clean
