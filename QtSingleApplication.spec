@@ -61,8 +61,6 @@ variant is provided, which avoids dependency on QtGui.
 Summary:	Development files for QtSingleApplication
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
-Requires:	qt4-build
-Requires:	qt4-qmake
 
 %description devel
 This package contains libraries and header files for developing
@@ -88,8 +86,6 @@ variant is provided, which avoids dependency on QtGui.
 Summary:	Development files for Qt5SingleApplication library
 Group:		Development/Libraries
 Requires:	Qt5SingleApplication = %{version}-%{release}
-Requires:	qt5-build
-Requires:	qt5-qmake
 
 %description -n Qt5SingleApplication-devel
 This package contains libraries and header files for developing
