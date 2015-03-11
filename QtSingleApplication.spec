@@ -9,7 +9,7 @@
 Summary:	Qt library to start applications only once per user
 Name:		QtSingleApplication
 Version:	2.6.1
-Release:	1
+Release:	2
 License:	GPL v3 or LGPL v2 with exceptions
 Group:		Libraries
 # git clone git@gitorious.org:qt-solutions/qt-solutions.git
@@ -38,7 +38,7 @@ BuildRequires:	Qt5LockedFile-devel
 BuildRequires:	Qt5Network-devel
 BuildRequires:	Qt5Widgets-devel
 BuildRequires:	qt5-build
-BuildRequires:	qt5-qmake
+BuildRequires:	qt5-qmake >= 5.4
 %endif
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -105,8 +105,6 @@ set -- *
 install -d build-qt{4,5}
 cp -al "$@" build-qt4
 cp -al "$@" build-qt5
-
-%{__sed} -i -e 's/QtSolutions/Qt5Solutions/' build-qt5/common.pri
 
 %build
 %if %{with qt4}
