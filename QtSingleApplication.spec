@@ -12,7 +12,7 @@ Version:	2.6.1
 Release:	2.1
 License:	GPL v3 or LGPL v2 with exceptions
 Group:		Libraries
-Source0:    https://github.com/qtproject/qt-solutions/archive/%{commit}/%{name}-%{commit}.tar.gz
+Source0:	https://github.com/qtproject/qt-solutions/archive/%{commit}/%{name}-%{commit}.tar.gz
 # Source0-md5:	07f01898ad475c5cded2968d25bee85c
 Source1:	qtsingleapplication.prf
 Source2:	qtsinglecoreapplication.prf
@@ -21,6 +21,7 @@ Patch1:		qtlockedfile.patch
 Patch2:		clementine.patch
 Patch3:		version.patch
 URL:		http://doc.qt.digia.com/solutions/4/qtsingleapplication/qtsingleapplication.html
+BuildRequires:	glibc-misc
 BuildRequires:	libstdc++-devel
 %if %{with qt4}
 BuildRequires:	QtGui-devel
@@ -113,6 +114,12 @@ cd build-qt4
 ./configure -library
 qmake-qt4
 %{__make}
+
+# ensure the it links to right version of LockedFile
+for l in SingleApplication SingleCoreApplication; do
+	f=libQtSolutions_$l-2.6.so
+	ldd lib/$f | grep libQtSolutions_LockedFile
+done
 cd ..
 %endif
 
@@ -122,6 +129,12 @@ cd build-qt5
 # XXX fix QtLockedFile package?
 qmake-qt5 INCLUDEPATH+=%{_includedir}/qt5/QtSolutions
 %{__make}
+
+# ensure the it links to right version of LockedFile
+for l in SingleApplication SingleCoreApplication; do
+	f=libQt5Solutions_$l-2.6.so
+	ldd lib/$f | grep libQt5Solutions_LockedFile
+done
 cd ..
 %endif
 
@@ -145,6 +158,7 @@ rm $RPM_BUILD_ROOT%{_libdir}/lib*.so.1.0
 cp -p src/qtsingle*application.h src/QtSingle*Application $RPM_BUILD_ROOT%{_includedir}/qt5/QtSolutions
 cp -p %{SOURCE1} %{SOURCE2} $RPM_BUILD_ROOT%{qt5dir}/mkspecs/features
 cd ..
+
 %endif
 
 %clean
