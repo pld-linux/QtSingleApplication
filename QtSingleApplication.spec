@@ -89,7 +89,7 @@ Requires:	Qt5SingleApplication = %{version}-%{release}
 
 %description -n Qt5SingleApplication-devel
 This package contains libraries and header files for developing
-applications that use QtSingleApplication.
+applications that use Qt5SingleApplication.
 
 %prep
 %setup -qc
@@ -97,7 +97,7 @@ applications that use QtSingleApplication.
 %patch1 -p0
 %patch2 -p1
 
-# We already disabled bundling this extrenal library.
+# We already disabled bundling this external library.
 # But just to make sure:
 rm src/{QtLocked,qtlocked}*
 
