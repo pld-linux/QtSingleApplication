@@ -5,23 +5,21 @@
 
 # last commit to qtsingleapplication subdir in
 # https://qt.gitorious.org/qt-solutions/qt-solutions/
-%define	commit	841982ceec9d30a7ab7324979a0fd5c9c36fd121
+%define	commit	ad9bc4600ce769a8b3ad10910803cd555811b70c
 Summary:	Qt library to start applications only once per user
 Name:		QtSingleApplication
 Version:	2.6.1
-Release:	2
+Release:	2.1
 License:	GPL v3 or LGPL v2 with exceptions
 Group:		Libraries
-# git clone git@gitorious.org:qt-solutions/qt-solutions.git
-# git checkout %{commit}
-# tar -cjf QtSingleApplication-%{version}.tar.bz2 -C qt-solutions/qtsingleapplication .
-Source0:	%{name}-%{version}.tar.bz2
-# Source0-md5:	2442ba5536b99b4b9144bd33ea23cb17
+Source0:    https://github.com/qtproject/qt-solutions/archive/%{commit}/%{name}-%{commit}.tar.gz
+# Source0-md5:	07f01898ad475c5cded2968d25bee85c
 Source1:	qtsingleapplication.prf
 Source2:	qtsinglecoreapplication.prf
 Patch0:		qtsingleapplication-build.diff
 Patch1:		qtlockedfile.patch
 Patch2:		clementine.patch
+Patch3:		version.patch
 URL:		http://doc.qt.digia.com/solutions/4/qtsingleapplication/qtsingleapplication.html
 BuildRequires:	libstdc++-devel
 %if %{with qt4}
@@ -93,9 +91,11 @@ applications that use Qt5SingleApplication.
 
 %prep
 %setup -qc
+mv qt-solutions-*/qtsingleapplication/* .
 %patch0 -p0
 %patch1 -p0
 %patch2 -p1
+%patch3 -p1
 
 # We already disabled bundling this external library.
 # But just to make sure:

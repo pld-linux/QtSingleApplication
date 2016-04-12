@@ -1,0 +1,20 @@
+use versioned soname
+
+--- ./common.pri.orig	2016-04-13 01:52:30.218251289 +0300
++++ ./common.pri	2016-04-13 01:52:30.218251289 +0300
+@@ -4,11 +4,11 @@
+ greaterThan(QT_MAJOR_VERSION, 5)|\
+   if(equals(QT_MAJOR_VERSION, 5):greaterThan(QT_MINOR_VERSION, 4))|\
+   if(equals(QT_MAJOR_VERSION, 5):equals(QT_MINOR_VERSION, 4):greaterThan(QT_PATCH_VERSION, 1)) {
+-    QTSINGLEAPPLICATION_LIBNAME = $$qt5LibraryTarget(QtSolutions_SingleApplication-head)
+-    QTSINGLECOREAPPLICATION_LIBNAME = $$qt5LibraryTarget(QtSolutions_SingleCoreApplication-head)
++    QTSINGLEAPPLICATION_LIBNAME = $$qt5LibraryTarget(QtSolutions_SingleApplication-2.6)
++    QTSINGLECOREAPPLICATION_LIBNAME = $$qt5LibraryTarget(QtSolutions_SingleCoreApplication-2.6)
+ } else {
+-    QTSINGLEAPPLICATION_LIBNAME = $$qtLibraryTarget(QtSolutions_SingleApplication-head)
+-    QTSINGLECOREAPPLICATION_LIBNAME = $$qtLibraryTarget(QtSolutions_SingleCoreApplication-head)
++    QTSINGLEAPPLICATION_LIBNAME = $$qtLibraryTarget(QtSolutions_SingleApplication-2.6)
++    QTSINGLECOREAPPLICATION_LIBNAME = $$qtLibraryTarget(QtSolutions_SingleCoreApplication-2.6)
+ }
+ TEMPLATE -= fakelib
+ 

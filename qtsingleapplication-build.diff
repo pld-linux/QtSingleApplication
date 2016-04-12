@@ -16,18 +16,22 @@ diff -rupN buildlib/buildcorelib.pro.old buildlib/buildcorelib.pro
 +target.path = $$DESTDIR
 +INSTALLS += target
 diff -rupN common.pri.old common.pri
---- common.pri.old      2014-08-14 22:46:46.597411107 +0200
-+++ common.pri  2014-08-14 22:47:33.676859489 +0200
-@@ -1,6 +1,7 @@
- exists(config.pri):infile(config.pri, SOLUTIONS_LIBRARY, yes): CONFIG += qtsingleapplication-uselib
- TEMPLATE += fakelib
--QTSINGLEAPPLICATION_LIBNAME = $$qtLibraryTarget(QtSolutions_SingleApplication-head)
-+QTSINGLEAPPLICATION_LIBNAME = $$qtLibraryTarget(QtSolutions_SingleApplication-2.6)
-+QTSINGLECOREAPPLICATION_LIBNAME = $$qtLibraryTarget(QtSolutions_SingleCoreApplication-2.6)
+--- common.pri.old	2015-09-13 18:29:19.955577604 +0200
++++ common.pri	2015-09-13 18:32:21.054587906 +0200
+@@ -5,10 +5,12 @@ greaterThan(QT_MAJOR_VERSION, 5)|\
+   if(equals(QT_MAJOR_VERSION, 5):greaterThan(QT_MINOR_VERSION, 4))|\
+   if(equals(QT_MAJOR_VERSION, 5):equals(QT_MINOR_VERSION, 4):greaterThan(QT_PATCH_VERSION, 1)) {
+     QTSINGLEAPPLICATION_LIBNAME = $$qt5LibraryTarget(QtSolutions_SingleApplication-head)
++    QTSINGLECOREAPPLICATION_LIBNAME = $$qt5LibraryTarget(QtSolutions_SingleCoreApplication-head)
+ } else {
+     QTSINGLEAPPLICATION_LIBNAME = $$qtLibraryTarget(QtSolutions_SingleApplication-head)
++    QTSINGLECOREAPPLICATION_LIBNAME = $$qtLibraryTarget(QtSolutions_SingleCoreApplication-head)
+ }
  TEMPLATE -= fakelib
+ 
  QTSINGLEAPPLICATION_LIBDIR = $$PWD/lib
-+QTSINGLECOREAPPLICATION_LIBDIR = $$PWD/lib
 -unix:qtsingleapplication-uselib:!qtsingleapplication-buildlib:QMAKE_RPATHDIR += $$QTSINGLEAPPLICATION_LIBDIR
++QTSINGLECOREAPPLICATION_LIBDIR = $$PWD/lib
 diff -rupN qtsingleapplication.pro.old qtsingleapplication.pro
 --- qtsingleapplication.pro.old	2009-12-16 05:43:33.000000000 -0500
 +++ qtsingleapplication.pro	2010-07-21 22:09:10.000000000 -0400
