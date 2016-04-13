@@ -92,7 +92,8 @@ applications that use Qt5SingleApplication.
 
 %prep
 %setup -qc
-mv qt-solutions-*/qtsingleapplication/* .
+mv qt-solutions-* .qtsolutions
+mv .qtsolutions/qtsingleapplication/* .
 %patch0 -p0
 %patch1 -p0
 %patch2 -p1
