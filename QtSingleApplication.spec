@@ -9,7 +9,7 @@
 Summary:	Qt library to start applications only once per user
 Name:		QtSingleApplication
 Version:	2.6.1
-Release:	3
+Release:	4
 License:	GPL v3 or LGPL v2 with exceptions
 Group:		Libraries
 Source0:	https://github.com/qtproject/qt-solutions/archive/%{commit}/%{name}-%{commit}.tar.gz
@@ -161,9 +161,9 @@ install -d $RPM_BUILD_ROOT{%{_libdir},%{_includedir}/qt5/QtSolutions,%{qt5dir}/m
 cp -a lib/* $RPM_BUILD_ROOT%{_libdir}
 rm $RPM_BUILD_ROOT%{_libdir}/lib*.so.1.0
 cp -p src/qtsingle*application.h src/QtSingle*Application $RPM_BUILD_ROOT%{_includedir}/qt5/QtSolutions
-cp -p %{SOURCE1} %{SOURCE2} $RPM_BUILD_ROOT%{qt5dir}/mkspecs/features
+%{__sed} -e s/QtSolutions_SingleApplication-2.6/Qt5Solutions_SingleApplication-2.6/g %{SOURCE1} > $RPM_BUILD_ROOT%{qt5dir}/mkspecs/features/qtsingleapplication.prf
+%{__sed} -e s/QtSolutions_SingleCoreApplication-2.6/Qt5Solutions_SingleCoreApplication-2.6/g %{SOURCE2} > $RPM_BUILD_ROOT%{qt5dir}/mkspecs/features/qtsinglecoreapplication.prf
 cd ..
-
 %endif
 
 %clean
