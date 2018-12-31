@@ -1,0 +1,32 @@
+--- QtSingleApplication-2.6.1/buildlib/buildlib.pro.orig	2015-06-29 15:40:53.000000000 +0200
++++ QtSingleApplication-2.6.1/buildlib/buildlib.pro	2018-12-31 18:20:11.008121897 +0100
+@@ -5,9 +5,12 @@
+ include(../src/qtsingleapplication.pri)
+ TARGET = $$QTSINGLEAPPLICATION_LIBNAME
+ DESTDIR = $$QTSINGLEAPPLICATION_LIBDIR
++isEmpty(INSTALL_LIBDIR) {
++  INSTALL_LIBDIR = $$QTSINGLEAPPLICATION_LIBDIR
++}
+ win32 {
+     DLLDESTDIR = $$[QT_INSTALL_BINS]
+     QMAKE_DISTCLEAN += $$[QT_INSTALL_BINS]\\$${QTSINGLEAPPLICATION_LIBNAME}.dll
+ }
+-target.path = $$DESTDIR
++target.path = $$INSTALL_LIBDIR
+ INSTALLS += target
+--- QtSingleApplication-2.6.1/buildlib/buildcorelib.pro.orig	2018-12-31 18:05:26.731465328 +0100
++++ QtSingleApplication-2.6.1/buildlib/buildcorelib.pro	2018-12-31 18:20:37.364788263 +0100
+@@ -5,9 +5,12 @@
+ include(../src/qtsinglecoreapplication.pri)
+ TARGET = $$QTSINGLECOREAPPLICATION_LIBNAME
+ DESTDIR = $$QTSINGLEAPPLICATION_LIBDIR
++isEmpty(INSTALL_LIBDIR) {
++  INSTALL_LIBDIR = $$QTSINGLEAPPLICATION_LIBDIR
++}
+ win32 {
+     DLLDESTDIR = $$[QT_INSTALL_BINS]
+     QMAKE_DISTCLEAN += $$[QT_INSTALL_BINS]\\$${QTSINGLECOREAPPLICATION_LIBNAME}.dll
+ }
+-target.path = $$DESTDIR
++target.path = $$INSTALL_LIBDIR
+ INSTALLS += target
